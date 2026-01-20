@@ -21,34 +21,49 @@ st.markdown("""
 frases = [
     "«No soy un prodigio, soy un error del sistema que entrena más que vos.»",
     "«El dolor es solo información. Ignorala y seguí.»",
-    "«Tu potencial genético es el techo, tu disciplina es el ascensor.»",
+    "«Tu genética es el mapa, pero tu disciplina es el camino.»",
     "«MEMENTO MORI: ¿Vas a morir siendo un promedio o una leyenda?»"
 ]
 
+# PRESENTACIÓN CORDIAL
 st.markdown("<h1 style='text-align: center;'>🥷 TOJI PERFORMANCE SYSTEM</h1>", unsafe_allow_html=True)
 st.markdown(f"<p style='text-align: center; color: #00ffcc; font-style: italic;'>{random.choice(frases)}</p>", unsafe_allow_html=True)
 
 st.divider()
 
-# 2. SECCIÓN BIOMÉTRICA (MUÑECA Y TOBILLO CLAVES)
+st.write("### 👋 ¡Hola, Jonathan!")
+st.write("Es un honor tenerte de vuelta en el centro de mando. Antes de empezar con la biometría...")
+estado_animo = st.select_slider(
+    "¿Cómo te sentís hoy mentalmente?",
+    options=["Agotado", "Frustrado", "Neutral", "Enfocado", "Modo Bestia"]
+)
+
+if estado_animo in ["Agotado", "Frustrado"]:
+    st.warning("⚠️ El guerrero también descansa. Hoy priorizá la técnica sobre el peso.")
+elif estado_animo == "Modo Bestia":
+    st.success("🔥 Excelente. Hoy es el día para romper tus límites personales.")
+
+st.write("---")
+
+# 2. SECCIÓN BIOMÉTRICA
 with st.container():
     c1, c2, c3 = st.columns(3)
     with c1:
         genero = st.radio("BIOLOGÍA", ["Hombre", "Mujer"], horizontal=True)
-        altura = st.number_input("ALTURA (cm)", 120, 230, 180)
+        altura = st.number_input("ALTURA (cm)", 120, 230, 181)
         edad = st.number_input("EDAD", 12, 90, 20)
     with c2:
-        muneca = st.number_input("MUÑECA (cm)", 10.0, 25.0, 17.0)
-        tobillo = st.number_input("TOBILLO (cm)", 10.0, 35.0, 22.0)
+        muneca = st.number_input("MUÑECA (cm)", 10.0, 25.0, 17.5)
+        tobillo = st.number_input("TOBILLO (cm)", 10.0, 35.0, 22.5)
     with c3:
         objetivo = st.selectbox("ESTRATEGIA", ["Volumen", "Definición", "Mantenimiento"])
         actividad = st.selectbox("ACTIVIDAD", ["Sedentario", "Ligero", "Moderado", "Atleta"])
 
-# 3. EL ESTIMADOR DE PESO TÁCTICO (RECALIBRADO)
+# 3. EL ESTIMADOR DE PESO TÁCTICO
 st.subheader("⚖️ MASA CORPORAL")
-metodo_p = st.radio("¿ESTÁS EN BALANZA?", ["SÍ", "NO, ESTIMAR"], horizontal=True)
+metodo_p = st.radio("¿TENÉS TU PESO EXACTO HOY?", ["SÍ, TENGO BALANZA", "NO, ESTIMAR POR REFERENCIA"], horizontal=True)
 
-if metodo_p == "NO, ESTIMAR":
+if metodo_p == "NO, ESTIMAR POR REFERENCIA":
     referencia = st.select_slider("ESTADO VISUAL:", options=["Delgado", "Atlético", "Promedio", "Fuerte/Pesado"])
     dict_imc = {"Delgado": 18.8, "Atlético": 21.4, "Promedio": 24.0, "Fuerte/Pesado": 27.5}
     peso_base = dict_imc[referencia] * ((altura/100)**2)
@@ -66,7 +81,7 @@ if objetivo == "Volumen": calorias += 450
 elif objetivo == "Definición": calorias -= 450
 
 # 4. PESTAÑAS: RENDIMIENTO, ADN Y MENTE
-tab1, tab2, tab3 = st.tabs(["🚀 RENDIMIENTO", "🧬 POTENCIAL ADN", "🧠 CENTRO MENTAL"])
+tab1, tab2, tab3 = st.tabs(["🚀 RENDIMIENTO", "🧬 POTENCIAL GENÉTICO", "🧠 CENTRO DE DESAHOGO"])
 
 with tab1:
     col1, col2, col3 = st.columns(3)
@@ -82,16 +97,15 @@ with tab1:
     st.write(f"🥑 Grasas: {int(g)}g"); st.progress(0.15)
 
 with tab2:
-    st.subheader("🧬 ANÁLISIS DE LÍMITES GENÉTICOS")
+    st.subheader("🧬 ANÁLISIS DE LÍMITES BIOLÓGICOS")
     score = (muneca + tobillo) / 2
     
-    # CÁLCULOS DE POTENCIAL (LA ESENCIA)
+    # CÁLCULOS DE POTENCIAL
     potencial_muscular = (altura - 100) + (muneca * 0.5) 
     st.info(f"📍 Tu límite de masa muscular magra estimado es: **{round(potencial_muscular, 1)} kg**")
     
     st.write("---")
-    st.subheader("🏋️ POTENCIAL DE EMPUJE (1RM ESTIMADO)")
-    # El potencial de fuerza se basa en la estructura ósea (muñeca/tobillo)
+    st.subheader("🏋️ POTENCIAL DE EMPUJE (1RM)")
     bench_press = (peso * 1.2) * (score / 17.5)
     deadlift = (peso * 2.0) * (score / 17.5)
     
@@ -99,24 +113,24 @@ with tab2:
     c_f1.metric("POTENCIAL PRESS BANCA", f"{int(bench_press)} kg")
     c_f2.metric("POTENCIAL PESO MUERTO", f"{int(deadlift)} kg")
     
-    st.write("⚠️ *Estos son los números que tu chasis puede soportar si entrenás como una bestia.*")
+    st.write("⚠️ *Estos números representan tu capacidad máxima teórica según tu chasis óseo.*")
 
 with tab3:
-    st.subheader("✍️ EL MURO DEL SILENCIO (DESAHOGO)")
-    st.write("Soltá acá todo lo que te dolió hoy. El mensaje que no llegó, la traición, la bronca. Escribilo y destruilo.")
-    desahogo = st.text_area("Desahogate...", height=150, placeholder="Escribí aquí tu mensaje privado...")
+    st.subheader("✍️ EL MURO DEL SILENCIO")
+    st.write("Jonathan, este es tu espacio privado. Escribí lo que necesites soltar hoy: broncas, decepciones o metas.")
+    desahogo = st.text_area("Desahogate aquí...", height=150, placeholder="Escribí eso que te está quemando la cabeza...")
     
-    if st.button("QUEMAR Y LIBERAR"):
+    if st.button("QUEMAR Y SOLTAR"):
         st.balloons()
-        st.success("MENSAJE DESTRUIDO. EL PASADO NO TIENE PODER SOBRE VOS.")
+        st.success("MENSAJE DESTRUIDO. EL GUERRERO SE LEVANTA OTRA VEZ.")
     
     st.divider()
-    st.subheader("🌬️ RESPIRACIÓN TÁCTICA")
-    if st.button("INICIAR REINICIO MENTAL"):
+    st.subheader("🌬️ REINICIO MENTAL")
+    if st.button("INICIAR RESPIRACIÓN TÁCTICA"):
         ph = st.empty(); pb = st.progress(0)
         for i in range(2):
             for t, c in [("🟦 INHALA", "info"), ("⬜ MANTÉN", "warning"), ("🟩 EXHALA", "success"), ("🟨 VACÍO", "error")]:
                 getattr(ph, c)(t)
                 for p in range(101):
                     time.sleep(0.038); pb.progress(p)
-        ph.success("✅ FOCO RECUPERADO. VOLVÉ AL RUEDO.")
+        ph.success("✅ FOCO RECUPERADO. SOS DUEÑO DE TU MENTE.")
