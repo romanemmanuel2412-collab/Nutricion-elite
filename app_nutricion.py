@@ -76,6 +76,41 @@ with tab3:
         st.success(f"Biotipo: **{biotipo}**")
         st.write("🚀 **Ventaja Genética:** Fuerza bruta masiva y potencia de empuje. Capacidad de carga superior.")
 
+    st.subheader("🧬 Análisis de Biotipo Genético")
+
+    # Usamos la variable 'muneca' que ya definimos antes
+    if muneca >= 19:
+        tecnico = "Endomorfo / Mesomorfo Pesado"
+        rango = "TITÁN (Unidad de Asedio)"
+        color = "orange"
+        desc = "Estructura ósea masiva. Tu potencial de fuerza bruta es el más alto. Estás diseñado para cargar grandes pesos y dominar por tamaño."
+    elif muneca < 19 and muneca > 16.5:
+        tecnico = "Mesomorfo Puro"
+        rango = "GUERRERO (Versatilidad Táctica)"
+        color = "green"
+        desc = "Genética de atleta de élite. Capacidad natural para ganar músculo y perder grasa simultáneamente. Estética y potencia equilibradas."
+    else:
+        tecnico = "Ectomorfo / Ecto-Mesomorfo"
+        rango = "CAZADOR (Fibra y Velocidad)"
+        color = "blue"
+        desc = "Estructura ligera y eficiente. Tu ventaja es la definición y la agilidad. Cada gramo de músculo se marca con precisión quirúrgica."
+
+    # Presentación visual con impacto
+    col_a, col_b = st.columns(2)
+
+    with col_a:
+        st.markdown(f"**Clasificación Técnica:**")
+        st.code(tecnico) # Estilo código para que parezca un reporte médico
+
+    with col_b:
+        st.markdown(f"**Rango de Combate:**")
+        st.subheader(f":{color}[{rango}]")
+
+    st.info(f"💡 **Análisis de Potencial:** {desc}")
+
+    st.divider()
+    st.write("*" + "La estructura ósea no miente. Los músculos se construyen, pero el chasis es el que define tu techo." + "*")
+
     # Cálculo de Potencial de Masa Muscular Máxima (Fórmula de Casey Butt)
     potencial = (altura * 0.15) + (muneca * 0.5) + (tobillo * 0.5) # Simplificación pro
     st.metric("Tu límite de peso muscular estimado (Natural)", f"{round(potencial, 1)} kg")
@@ -152,6 +187,30 @@ with tab5:
     pensamiento = st.text_area("¿Qué te está pesando hoy? Sacalo de tu cabeza y ponelo acá (no se guarda en ningún lado, es solo para vos).")
     if pensamiento:
         st.write("✅ *Pensamiento procesado. Ahora volvé a la acción.*")
+
+# --- MODO BESTIA (HIGH INTENSITY) ---
+st.divider()
+st.subheader("💀 PROTOCOLO DE GUERRA")
+st.write("Solo para cuando estés a punto de rendirte.")
+
+if st.button("ACTIVAR MODO BESTIA"):
+    st.balloons() # Efecto visual
+    st.audio("https://www.soundjay.com/mechanical/sounds/clanking-chain-01.mp3") # Sonido de cadenas o metal (opcional)
+    
+    # Contenedor con estilo agresivo
+    st.markdown("""
+        <div style="background-color:#ff4b4b; padding:20px; border-radius:10px; border: 2px solid white;">
+            <h2 style="color:white; text-align:center;">🔥 ¡LEVANTATE Y EJECUTA!</h2>
+            <p style="color:white; font-size:18px; text-align:center;">
+                Tu mente te está mintiendo. Tus músculos tienen un 40% más de energía de lo que crees. 
+                El mundo no te debe nada. La comodidad es la tumba de los hombres mediocres.
+            </p>
+            <p style="color:white; font-weight:bold; text-align:center;">
+                SALÍ DE ESTA APP, SOLTÁ EL CELULAR Y HACÉ QUE TU YO DEL FUTURO ESTÉ ORGULLOSO.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+    st.warning("⚠️ Advertencia: Este estado mental consume mucha energía. Usalo para entrenar, no para pensar.")
 
 # Creamos una pestaña nueva de "Ciencia" o lo ponemos debajo de los resultados
 st.divider() # Una línea divisoria para separar
