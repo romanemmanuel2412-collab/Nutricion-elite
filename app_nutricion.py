@@ -54,24 +54,23 @@ with tab3:
     with c2:
         tobillo = st.number_input("Medida de tobillo (cm)", 15.0, 35.0, 22.0)
 
-    # Lógica de Biotipo por estructura ósea
-    # Relación muneca/altura es un estándar científico para biotipos
-    ratio = altura / muneca
+    # Cálculo del Índice de Estructura Ósea (Estatura / Muneca)
+    r_medida = altura / muneca
     
     st.subheader("Tu Diagnóstico Genético:")
     
-    if muneca >= 19:
-        biotipo = "Mesomorfo con Estructura Pesada (Potencial de Tanque)"
-    elif muneca < 19 and muneca > 16:
-        biotipo = "Mesomorfo"
+    if r_medida > 10.4:
+        biotipo = "Ectomorfo (Estructura Fina)"
+    elif 9.6 <= r_medida <= 10.4:
+        biotipo = "Mesomorfo (Estructura Atlética)"
     else:
-        biotipo = "Ectomorfo"
+        biotipo = "Endomorfo / Estructura Pesada (Potencial de Fuerza)"
     
-    if biotipo == "Ectomorfo":
-        st.success(f"Biotipo: **{biotipo}** (Estructura fina)")
+    if biotipo == "Ectomorfo (Estructura Fina)":
+        st.success(f"Biotipo: **{biotipo}**")
         st.write("🚀 **Ventaja Genética:** Gran capacidad de definición y velocidad. Ideal para saltos explosivos en la arena.")
-    elif biotipo == "Mesomorfo":
-        st.success(f"Biotipo: **{biotipo}** (Estructura atlética)")
+    elif biotipo == "Mesomorfo (Estructura Atlética)":
+        st.success(f"Biotipo: **{biotipo}**")
         st.write("🚀 **Ventaja Genética:** Facilidad para ganar músculo y perder grasa. Genética de guerrero balanceado.")
     else:
         st.success(f"Biotipo: **{biotipo}**")
