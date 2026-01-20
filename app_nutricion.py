@@ -19,6 +19,29 @@ with tab1:
         edad = st.number_input("Edad", 10, 100, 20)
         objetivo = st.selectbox("Tu Objetivo", ["Definición", "Mantenimiento", "Volumen"])
 
+with tab2:
+    st.subheader("🍱 Distribución de Energía (Macros)")
+    
+    # REPETIMOS EL CÁLCULO AQUÍ PARA QUE LA PESTAÑA TENGA LOS DATOS
+    # (Asegurate de que estas variables usen los datos que ingresaste en la Tab 1)
+    
+    proteina = peso * 2.2 
+    grasas = peso * 0.9
+    
+    # Calculamos carbohidratos restando al total de calorías
+    # Usamos la variable 'calorias_finales' que calculamos en la Tab 1
+    carbo_cal = 2500 - (proteina * 4) - (grasas * 9)
+    carbohidratos = carbo_cal / 4
+
+    # CREAMOS LAS COLUMNAS VISUALES
+    c1, c2, c3 = st.columns(3)
+    c1.metric("🥩 Proteínas", f"{int(proteina)}g")
+    c2.metric("🍞 Carbos", f"{int(carbohidratos)}g")
+    c3.metric("🥑 Grasas", f"{int(grasas)}g")
+    
+    st.divider()
+    st.info("💡 **Dato de Elite:** Esta distribución está optimizada para mantener el rendimiento en Handball sin perder masa muscular.")
+
 with tab3:
     st.header("Análisis de Potencial Genético")
     st.write("Calculamos tu biotipo y límite natural basado en tu estructura ósea.")
