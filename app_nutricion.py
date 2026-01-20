@@ -109,4 +109,25 @@ with tab4:
     
     st.success("💪 **Recuerda:** El cuerpo es el templo, pero la mente es el guerrero.")
 
+# --- SECCIÓN DE AUTOR (LA FIRMA DE TOJI) ---
+st.divider()
+col_autor, col_vacio = st.columns([2, 1])
+
+with col_autor:
+    st.subheader("👨‍💻 Sobre el Desarrollador")
+    st.write("""
+    **Jonathan | Atleta y Desarrollador**
+    
+    Este sistema nació de la necesidad de optimizar el rendimiento físico sin perder la claridad mental. 
+    Como jugador de Handball y apasionado por la tecnología, creo en la disciplina como la única 
+    herramienta para superar el entorno. 
+    
+    *«El destino no se espera, se programa.»*
+    """)
+    
+    # Botón con efecto para que te contacten o te sigan
+    if st.button("🚀 Contactar para Proyectos"):
+        st.balloons()
+        st.write("Mandame un mensaje si buscás optimizar tu rendimiento o necesitás software a medida.")
+
 
