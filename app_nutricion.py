@@ -1,4 +1,5 @@
 import streamlit as st
+import getpass
 
 # Configuración Pro
 st.set_page_config(page_title="Toji Performance", page_icon="🦾", layout="wide")
