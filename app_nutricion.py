@@ -17,6 +17,8 @@ with tab1:
         genero = st.radio("Género", ["Hombre", "Mujer"], horizontal=True)
     with col2:
         edad = st.number_input("Edad", 10, 100, 20)
+        # ESTA ES LA LÍNEA QUE TE FALTA:
+        muneca = st.number_input("Medida de muñeca (cm)", 10.0, 30.0, 17.0)
         objetivo = st.selectbox("Tu Objetivo", ["Definición", "Mantenimiento", "Volumen"])
 
 with tab2:
@@ -58,14 +60,21 @@ with tab3:
     
     st.subheader("Tu Diagnóstico Genético:")
     
-    if ratio > 10.4:
-        st.success("Biotipo: **ECTOMORFO** (Estructura fina)")
+    if muñeca >= 19:
+        biotipo = "Mesomorfo con Estructura Pesada (Potencial de Tanque)"
+    elif muñeca < 19 and muñeca > 16:
+        biotipo = "Mesomorfo"
+    else:
+        biotipo = "Ectomorfo"
+    
+    if biotipo == "Ectomorfo":
+        st.success(f"Biotipo: **{biotipo}** (Estructura fina)")
         st.write("🚀 **Ventaja Genética:** Gran capacidad de definición y velocidad. Ideal para saltos explosivos en la arena.")
-    elif 9.6 <= ratio <= 10.4:
-        st.success("Biotipo: **MESOMORFO** (Estructura atlética)")
+    elif biotipo == "Mesomorfo":
+        st.success(f"Biotipo: **{biotipo}** (Estructura atlética)")
         st.write("🚀 **Ventaja Genética:** Facilidad para ganar músculo y perder grasa. Genética de guerrero balanceado.")
     else:
-        st.success("Biotipo: **ENDOMORFO** (Estructura robusta)")
+        st.success(f"Biotipo: **{biotipo}**")
         st.write("🚀 **Ventaja Genética:** Fuerza bruta masiva y potencia de empuje. Capacidad de carga superior.")
 
     # Cálculo de Potencial de Masa Muscular Máxima (Fórmula de Casey Butt)
