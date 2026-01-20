@@ -1,7 +1,52 @@
 import streamlit as st
 
-st.set_page_config(page_title="Toji Performance", page_icon="🧬", layout="wide")
+# 1. Configuración con Estilo JJK
+st.set_page_config(page_title="Toji Performance System", page_icon="🗡️", layout="wide")
 
+# 2. Inyección de CSS para Personalización Total
+st.markdown("""
+    <style>
+    /* Fondo Negro Total */
+    .stApp {
+        background-color: #050505;
+        color: #FFFFFF;
+    }
+    
+    /* Títulos con borde rojo tipo 'Corte de Espada' */
+    h1, h2 {
+        font-family: 'Courier New', Courier, monospace;
+        text-transform: uppercase;
+        color: #FF0000 !important;
+        border-bottom: 2px solid #FF0000;
+        padding-bottom: 10px;
+    }
+
+    /* Pestañas (Tabs) Estilo Militar */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: #111;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        color: white !important;
+        font-weight: bold;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #FF0000 !important;
+        border-radius: 5px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# 3. Barra Lateral con GIF de Toji
+with st.sidebar:
+    st.image("https://media.tenor.com/79_u9E5K-XUAAAAM/toji-toji-fushiguro.gif")
+    st.markdown("### STATUS: **CAZADOR DE HECHICEROS**")
+    st.write("---")
+    st.info("Tu cuerpo es tu única arma. No necesitás energía maldita, necesitás disciplina.")
+
+# 4. Título Principal
 st.title("🛡️ TOJI PERFORMANCE SYSTEM")
 st.write("*" + "El destino es lo que construyes con el código y el sudor." + "*")
 
