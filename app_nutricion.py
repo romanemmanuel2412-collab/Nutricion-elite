@@ -18,7 +18,7 @@ with tab1:
     with col2:
         edad = st.number_input("Edad", 10, 100, 20)
         # ESTA ES LA LÍNEA QUE TE FALTA:
-        muneca = st.number_input("Medida de muñeca (cm)", 10.0, 30.0, 17.0)
+        muneca = st.number_input("Medida de muneca (cm)", 10.0, 30.0, 17.0)
         objetivo = st.selectbox("Tu Objetivo", ["Definición", "Mantenimiento", "Volumen"])
 
 with tab2:
@@ -50,19 +50,19 @@ with tab3:
     
     c1, c2 = st.columns(2)
     with c1:
-        muneca = st.number_input("Medida de muñeca (cm)", 10.0, 25.0, 17.0)
+        muneca = st.number_input("Medida de muneca (cm)", 10.0, 25.0, 17.0)
     with c2:
         tobillo = st.number_input("Medida de tobillo (cm)", 15.0, 35.0, 22.0)
 
     # Lógica de Biotipo por estructura ósea
-    # Relación muñeca/altura es un estándar científico para biotipos
+    # Relación muneca/altura es un estándar científico para biotipos
     ratio = altura / muneca
     
     st.subheader("Tu Diagnóstico Genético:")
     
-    if muñeca >= 19:
+    if muneca >= 19:
         biotipo = "Mesomorfo con Estructura Pesada (Potencial de Tanque)"
-    elif muñeca < 19 and muñeca > 16:
+    elif muneca < 19 and muneca > 16:
         biotipo = "Mesomorfo"
     else:
         biotipo = "Ectomorfo"
