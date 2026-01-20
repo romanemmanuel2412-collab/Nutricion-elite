@@ -109,6 +109,39 @@ with tab4:
     
     st.success("💪 **Recuerda:** El cuerpo es el templo, pero la mente es el guerrero.")
 
+# Creamos una pestaña nueva de "Ciencia" o lo ponemos debajo de los resultados
+st.divider() # Una línea divisoria para separar
+st.subheader("🔬 Evidencias Científicas y Metodología")
+
+with st.expander("Ver fuentes bibliográficas y fórmulas utilizadas"):
+    st.write("""
+    Este sistema no utiliza estimaciones al azar. Los resultados se basan en los siguientes pilares de la nutrición deportiva y la antropometría:
+    """)
+    
+    # 1. Harris-Benedict
+    st.markdown("### 1. Tasa Metabólica Basal (TMB)")
+    st.write("""
+    Se utiliza la **Ecuación de Harris-Benedict revisada**. Es el estándar de oro para calcular las calorías en reposo.
+    * *Fuente:* Roza AM, Shizgal HM. (1984). "The Harris Benedict equation reevaluated".
+    """)
+
+    # 2. Índice de Grant
+    st.markdown("### 2. Biotipificación por Estructura Ósea")
+    st.write("""
+    Para determinar si eres Ectomorfo, Mesomorfo o Endomorfo, utilizamos el **Índice de Grant**, que relaciona la estatura con la circunferencia de la muñeca.
+    * *Fórmula:* $R = Altura (cm) / Muneca (cm)$
+    * *Fuente:* Grant JP. (1980). "Handbook of Total Parenteral Nutrition".
+    """)
+
+    # 3. Proteínas
+    st.markdown("### 3. Requerimientos de Proteína")
+    st.write("""
+    El objetivo de 2.2g de proteína por kg de peso está basado en las recomendaciones de la **ISSN** para atletas de fuerza y deportes de equipo (como el Handball) para maximizar la síntesis proteica.
+    * *Fuente:* Jäger et al. (2017). "International Society of Sports Nutrition Conference Stand: protein and exercise".
+    """)
+    
+    st.info("💡 **Nota del desarrollador:** Estas fórmulas son herramientas de orientación. Para un plan médico, siempre consulta a un profesional.")
+
 # --- SECCIÓN DE AUTOR (LA FIRMA DE TOJI) ---
 st.divider()
 col_autor, col_vacio = st.columns([2, 1])
