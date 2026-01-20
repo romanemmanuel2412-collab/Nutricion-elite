@@ -1,49 +1,55 @@
 import streamlit as st
 
-# 1. Configuración con Estilo JJK
-st.set_page_config(page_title="Toji Performance System", page_icon="🗡️", layout="wide")
+# Configuración Pro
+st.set_page_config(page_title="Toji Performance", page_icon="🦾", layout="wide")
 
-# 2. Inyección de CSS para Personalización Total
+# CSS "Tech-Wear" (Elegante, oscuro y serio)
 st.markdown("""
     <style>
-    /* Fondo Negro Total */
     .stApp {
-        background-color: #050505;
-        color: #FFFFFF;
+        background-color: #0a0a0a;
+        color: #e0e0e0;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* Títulos con borde rojo tipo 'Corte de Espada' */
-    h1, h2 {
-        font-family: 'Courier New', Courier, monospace;
+    /* Títulos con estilo de interfaz táctica */
+    h1, h2, h3 {
+        color: #ffffff !important;
+        letter-spacing: -1px;
+        font-weight: 800;
         text-transform: uppercase;
-        color: #FF0000 !important;
-        border-bottom: 2px solid #FF0000;
-        padding-bottom: 10px;
     }
 
-    /* Pestañas (Tabs) Estilo Militar */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        background-color: #111;
-        padding: 10px;
-        border-radius: 5px;
+    /* Línea roja sutil que divide secciones */
+    .stDivider {
+        border-bottom: 2px solid #330000;
     }
-    .stTabs [data-baseweb="tab"] {
-        color: white !important;
-        font-weight: bold;
+
+    /* Botones y tarjetas */
+    .stButton>button {
+        background-color: #1a1a1a;
+        border: 1px solid #444;
+        color: white;
+        transition: 0.3s;
     }
-    .stTabs [aria-selected="true"] {
-        background-color: #FF0000 !important;
-        border-radius: 5px;
+    .stButton>button:hover {
+        border-color: #ff0000;
+        color: #ff0000;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Barra Lateral con GIF de Toji
+# Banner: Una imagen de Toji pero de perfil, sombría, casi como una foto de modelo de fitness
+# Esta imagen es profesional y no se ve "infantil"
+st.image("https://images6.alphacoders.com/132/1329622.png", caption="PHYSICAL DOMINANCE SYSTEM // VER 2.0")
+
 with st.sidebar:
-    st.image("https://media.tenor.com/79_u9E5K-XUAAAAM/toji-toji-fushiguro.gif")
-    st.markdown("### STATUS: **CAZADOR DE HECHICEROS**")
-    st.write("---")
+    st.title("🛡️ PERFIL")
+    st.markdown("---")
+    # Imagen de Toji de espaldas o entrenando (estética 'Dark Gym')
+    st.image("https://i.pinimg.com/736x/8d/68/76/8d687679366f06a9ca9d9b6e4e08287d.jpg")
+    st.write("**OPERATIVO:** Jonathan")
+    st.markdown("---")
     st.info("Tu cuerpo es tu única arma. No necesitás energía maldita, necesitás disciplina.")
 
 # 4. Título Principal
