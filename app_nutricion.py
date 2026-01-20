@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-# 1. ESTÉTICA "TOJI ZENIN" (MODO GUERREO)
+# 1. ESTÉTICA "TOJI MODE"
 st.set_page_config(page_title="Toji Performance System", page_icon="🥷", layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown("""
@@ -18,13 +18,12 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# MÁXIMAS DEL SISTEMA
+# MÁXIMAS
 frases = [
     "«No soy un prodigio, soy un error del sistema que entrena más que vos.»",
     "«El dolor es solo información. Ignorala y seguí.»",
     "«Tu genética es el mapa, pero tu disciplina es el camino.»",
-    "«La mejor venganza es un éxito masivo y una mente en calma.»",
-    "«Entrená como si fueras el hombre más buscado del mundo.»"
+    "«MEMENTO MORI: ¿Vas a morir siendo un promedio o una leyenda?»"
 ]
 
 st.markdown("<h1 style='text-align: center;'>🥷 TOJI PERFORMANCE SYSTEM</h1>", unsafe_allow_html=True)
@@ -58,16 +57,13 @@ with st.container():
         objetivo = st.selectbox("ESTRATEGIA", ["Volumen", "Definición", "Mantenimiento"])
         actividad = st.selectbox("ACTIVIDAD", ["Sedentario", "Ligero", "Moderado", "Atleta"])
 
-# 3. MASA CORPORAL (ESTIMADOR TÁCTICO)
+# 3. MASA CORPORAL
 st.subheader("⚖️ MASA CORPORAL")
 metodo_p = st.radio("¿TENÉS BALANZA?", ["SÍ", "NO, ESTIMAR"], horizontal=True)
-
 if metodo_p == "NO, ESTIMAR":
     ref = st.select_slider("ESTADO VISUAL:", options=["Delgado", "Atlético", "Promedio", "Fuerte/Pesado"])
     dict_imc = {"Delgado": 18.8, "Atlético": 21.2, "Promedio": 23.8, "Fuerte/Pesado": 27.5}
-    peso_est = dict_imc[ref] * ((altura/100)**2)
-    ajuste = st.slider("AJUSTE FINO (kg)", -10.0, 10.0, 0.0)
-    peso = peso_est + ajuste
+    peso = (dict_imc[ref] * ((altura/100)**2)) + st.slider("AJUSTE FINO (kg)", -10.0, 10.0, 0.0)
     st.success(f"PESO CALCULADO: **{round(peso, 1)} KG**")
 else:
     peso = st.number_input("PESO REAL (kg)", 30.0, 200.0, 68.7)
@@ -75,82 +71,60 @@ else:
 # CÁLCULOS
 tmb = (10 * peso) + (6.25 * altura) - (5 * edad) + (5 if genero == "Hombre" else -161)
 factores = {"Sedentario": 1.2, "Ligero": 1.375, "Moderado": 1.55, "Atleta": 1.725}
-calorias = tmb * factores[actividad]
-if objetivo == "Volumen": calorias += 450
-elif objetivo == "Definición": calorias -= 450
+calorias = (tmb * factores[actividad]) + (450 if objetivo == "Volumen" else -450 if objetivo == "Definición" else 0)
 
-# 4. PESTAÑAS (TODA LA ESENCIA)
-tab1, tab2, tab3, tab4 = st.tabs(["🚀 RENDIMIENTO", "🧬 ADN", "🍲 SUMINISTROS", "🧠 MENTE"])
+# 4. PESTAÑAS
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["🚀 RENDIMIENTO", "🧬 ADN", "🍲 SUMINISTROS", "🧠 MENTE", "🏳️ ÚLTIMA INSTANCIA"])
 
 with tab1:
     col_m1, col_m2, col_m3 = st.columns(3)
     col_m1.metric("CALORÍAS", f"{int(calorias)} kcal")
     col_m2.metric("AGUA / L", f"{round((peso*35)/1000, 1)} L")
     col_m3.metric("PROTEÍNA", f"{int(peso*2.2)}g")
-    
-    st.write("---")
-    st.subheader("📊 MACROS DE COMBATE")
     p, g = peso * 2.2, peso * 0.9
     c = (calorias - (p*4) - (g*9)) / 4
-    st.write(f"🥩 **PROTEÍNA:** {int(p)}g"); st.progress(0.35)
-    st.write(f"🍞 **CARBOS:** {int(c)}g"); st.progress(0.65)
-    st.write(f"🥑 **GRASAS:** {int(g)}g"); st.progress(0.15)
+    st.write(f"🥩 Proteína: {int(p)}g | 🍞 Carbos: {int(c)}g | 🥑 Grasas: {int(g)}g")
 
 with tab2:
     st.subheader("🧬 LÍMITES BIOLÓGICOS")
+    pot_m = (altura - 100) + (muneca * 0.5)
+    st.info(f"📍 Límite de masa muscular magra: **{round(pot_m, 1)} kg**")
     score = (muneca + tobillo) / 2
-    potencial_m = (altura - 100) + (muneca * 0.5)
-    st.info(f"📍 Límite de masa muscular magra: **{round(potencial_m, 1)} kg**")
-    
-    st.write("---")
-    st.subheader("🏋️ POTENCIAL DE EMPUJE (1RM)")
-    bench = (peso * 1.2) * (score / 17.5)
-    dead = (peso * 2.0) * (score / 17.5)
     f1, f2 = st.columns(2)
-    f1.metric("PRESS BANCA", f"{int(bench)} kg")
-    f2.metric("PESO MUERTO", f"{int(dead)} kg")
+    f1.metric("POTENCIAL PRESS BANCA", f"{int((peso * 1.2) * (score / 17.5))} kg")
+    f2.metric("POTENCIAL PESO MUERTO", f"{int((peso * 2.0) * (score / 17.5))} kg")
 
 with tab3:
     st.subheader("🍲 SUMINISTROS DE COMBATE")
-    st.write("No necesitás lujos. Necesitás nutrientes. Optimizá tu presupuesto.")
-    
-    with st.expander("💸 NIVEL 1: PRESUPUESTO DE SUPERVIVENCIA (Bajos Recursos)"):
-        st.write("""
-        * **HUEVOS:** La fuente de proteína más barata. Comprá el cartón de 30.
-        * **HÍGADO DE VACA:** El multivitamínico más potente y económico del mundo.
-        * **AVENA:** Carbohidrato de absorción lenta, ideal para fuerza.
-        * **LENTEJAS/POROTOS:** Proteína vegetal y fibra para saciedad.
-        * **ARROZ/PAPA:** Tu combustible principal de bajo costo.
-        """)
-
-    with st.expander("⚖️ NIVEL 2: PRESUPUESTO EQUILIBRADO"):
-        st.write("""
-        * **POLLO (Pechuga o Pata Muslo):** Proteína magra versátil.
-        * **CARNE PICADA (Magra):** Hierro y creatina natural.
-        * **YOGUR NATURAL:** Probióticos para absorber mejor lo que comés.
-        * **BANANAS/FRUTA DE ESTACIÓN:** Energía rápida y potasio.
-        """)
-
-    with st.expander("🔱 NIVEL 3: SUMINISTRO ÓPTIMO"):
-        st.write("""
-        * **PESCADO (Atún/Caballa):** Omega 3 para desinflamar.
-        * **FRUTOS SECOS:** Grasas saludables y energía compacta.
-        * **PALTA:** La mejor fuente de grasa para tus hormonas.
-        """)
+    with st.expander("💸 BAJOS RECURSOS (SUPERVIVENCIA)"):
+        st.write("• HUEVOS (30 unidades) • HÍGADO DE VACA (Nutrientes base) • AVENA Y ARROZ (Energía) • LENTEJAS (Proteína vegetal)")
 
 with tab4:
     st.subheader("✍️ EL MURO DEL SILENCIO")
-    st.write(f"{nombre}, soltá lo que te pese hoy. Escribilo y destruilo.")
-    desahogo = st.text_area("Desahogate...", height=150)
-    if st.button("QUEMAR Y SOLTAR"):
-        st.balloons()
-        st.success("MENSAJE DESTRUIDO. TU MENTE ESTÁ LIMPIA.")
+    desahogo = st.text_area("Vaciá tu mente aquí...", height=150)
+    if st.button("QUEMAR MENSAJE"):
+        st.success("MENSAJE DESTRUIDO.")
+
+with tab5:
+    st.subheader("⚠️ PROTOCOLO DE ÚLTIMA INSTANCIA")
+    st.error("¿ESTÁS PENSANDO EN RENDIRTE?")
+    st.write(f"""
+    {nombre}, escuchame bien:
+    Rendirse es la opción más fácil, es lo que hace el 99% de la gente. 
+    Si te rendís hoy, el dolor no se va, solo se transforma en arrepentimiento. 
+    El mundo no se va a detener porque vos estés cansado. 
     
-    st.divider()
-    if st.button("REINICIO MENTAL (4-4-4-4)"):
-        ph = st.empty(); pb = st.progress(0)
-        for i in range(2):
-            for t, c in [("🟦 INHALA", "info"), ("⬜ MANTÉN", "warning"), ("🟩 EXHALA", "success"), ("🟨 VACÍO", "error")]:
-                getattr(ph, c)(t)
-                for p in range(101):
-                    time.sleep(0.038); pb.progress(p)
+    ¿Mañana vas a estar feliz de haber abandonado hoy? La respuesta es NO.
+    """)
+    
+    col_a, col_b = st.columns(2)
+    with col_a:
+        if st.button("ME QUIERO RENDIR"):
+            st.write("---")
+            st.write("❌ **OPCIÓN DENEGADA.**")
+            st.write("Tu sistema no acepta la rendición como una variable válida. Tomate 10 minutos, lavate la cara con agua fría y volvé a la pestaña de 'RENDIMIENTO'.")
+    
+    with col_b:
+        if st.button("REINICIAR ESPÍRITU"):
+            st.success("⚡ PROTOCOLO DE REINICIO ACTIVADO.")
+            st.write("Recuperá tu foco. No sos tus emociones, sos tus acciones. Levantá la cabeza.")
