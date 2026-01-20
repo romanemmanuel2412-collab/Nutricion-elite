@@ -40,7 +40,7 @@ with tab2:
     c3.metric("🥑 Grasas", f"{int(grasas)}g")
     
     st.divider()
-    st.info("💡 **Dato de Elite:** Esta distribución está optimizada para mantener el rendimiento en Handball sin perder masa muscular.")
+    st.info("💡 **Dato de Elite:** Esta distribución está optimizada para maximizar tu rendimiento deportivo sin perder masa muscular.")
 
 with tab3:
     st.header("Análisis de Potencial Genético")
@@ -74,6 +74,31 @@ with tab3:
     st.info("💡 Este es el peso máximo que tu estructura ósea puede soportar con un nivel bajo de grasa de forma natural.")
 
 with tab4:
-    st.subheader("Citas de Poder")
-    st.write("«No importa si no apuestan por mí, yo ya aposté todo lo que tengo.»")
+    st.subheader("🦁 Filosofía Estoica para Guerreros")
+    st.write("*Sabiduría de los grandes filósofos para forjar tu mente de acero*")
+    
+    st.divider()
+    
+    # Citas estoicas
+    citas = {
+        "Marco Aurelio": "«No pidas que las cosas salgan como quieres, sino que quieras que salgan como salen.»",
+        "Epicteto": "«No eres tú quien controla los eventos externos, sino solo tu juicio sobre ellos.»",
+        "Séneca": "«El gran guerrero es quien controla sus emociones, no sus enemigos.»",
+        "Zenón de Citio": "«La virtud es el único bien verdadero. Todo lo demás es indiferente.»",
+        "Cleantes": "«Lo que importa no es lo que te sucede, sino cómo respondes ante ello.»",
+        "Diógenes": "«La riqueza consiste no en tener bienes, sino en tener pocas necesidades.»"
+    }
+    
+    col_citas = st.columns(2)
+    contador = 0
+    
+    for filosofo, cita in citas.items():
+        with col_citas[contador % 2]:
+            st.write(f"**{filosofo}**")
+            st.write(f"_{cita}_")
+            st.divider()
+        contador += 1
+    
+    st.success("💪 **Recuerda:** El cuerpo es el templo, pero la mente es el guerrero.")
+
 
