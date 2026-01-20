@@ -6,7 +6,7 @@ st.title("🛡️ TOJI PERFORMANCE SYSTEM")
 st.write("*" + "El destino es lo que construyes con el código y el sudor." + "*")
 
 # Pestañas actualizadas
-tab1, tab2, tab3, tab4 = st.tabs(["📊 Calculadora", "🍱 Macros", "🧬 ADN & Genética", "🧠 Mentalidad"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Calculadora", "🍱 Macros", "🧬 ADN & Genética", "🧠 Mentalidad", "🧘 Salud Mental"])
 
 with tab1:
     # (Aquí va la lógica que ya tenías de peso, altura y calorías...)
@@ -109,6 +109,50 @@ with tab4:
     
     st.success("💪 **Recuerda:** El cuerpo es el templo, pero la mente es el guerrero.")
 
+with tab5:
+    st.subheader("🛠️ Caja de Herramientas Mental")
+    st.write("El músculo más importante es el que no se ve.")
+
+    # 1. Selector de Estado de Ánimo (Interactividad pura)
+    mood = st.select_slider(
+        "¿Cómo está tu nivel de energía mental hoy?",
+        options=["Agotado", "Ansioso", "Neutral", "Motivado", "Imparable"]
+    )
+
+    if mood == "Agotado":
+        st.error("🚨 **Orden de Toji:** Hoy el descanso es tu entrenamiento. Dormí 8 horas y desconectá del celular.")
+    elif mood == "Ansioso":
+        st.warning("⚖️ **Equilibrio:** Tu mente va más rápido que la realidad. Escribí 3 cosas que podés controlar hoy y olvidate del resto.")
+    elif mood == "Neutral":
+        st.info("🔄 **Modo Ejecución:** Ni frío ni calor. Es el mejor momento para programar o entrenar sin distracciones.")
+    elif mood == "Motivado":
+        st.success("🔥 **Aprovechá el Fuego:** Subí el peso en el gym o resolvé ese bug difícil en el código.")
+    elif mood == "Imparable":
+        st.snow() # Un efecto visual de festejo
+        st.write("🦾 **Dominio Total:** Sos el arquitecto de tu propio destino. No dejes que nadie te saque de este estado.")
+
+    st.divider()
+
+    # 2. Ejercicio de Respiración Táctica (Box Breathing)
+    st.subheader("🌬️ Respiración Táctica (4-4-4-4)")
+    st.write("Usada por fuerzas de élite para resetear el sistema nervioso en segundos.")
+    
+    if st.button("Iniciar Ciclo de Calma"):
+        with st.empty():
+            for i in range(1):
+                st.write("🟦 **Inhalá...** (1, 2, 3, 4)")
+                # Aquí podrías usar time.sleep(4) si querés que sea real
+                st.write("⬜ **Mantené...** (1, 2, 3, 4)")
+                st.write("🟩 **Exhalá...** (1, 2, 3, 4)")
+                st.write("🟨 **Mantené...** (1, 2, 3, 4)")
+        st.success("Sistema Nervioso Reseteado.")
+
+    # 3. El Diario del Villano (Input interactivo)
+    st.subheader("📓 Descarga de Pensamientos")
+    pensamiento = st.text_area("¿Qué te está pesando hoy? Sacalo de tu cabeza y ponelo acá (no se guarda en ningún lado, es solo para vos).")
+    if pensamiento:
+        st.write("✅ *Pensamiento procesado. Ahora volvé a la acción.*")
+
 # Creamos una pestaña nueva de "Ciencia" o lo ponemos debajo de los resultados
 st.divider() # Una línea divisoria para separar
 st.subheader("🔬 Evidencias Científicas y Metodología")
@@ -141,6 +185,34 @@ with st.expander("Ver fuentes bibliográficas y fórmulas utilizadas"):
     """)
     
     st.info("💡 **Nota del desarrollador:** Estas fórmulas son herramientas de orientación. Para un plan médico, siempre consulta a un profesional.")
+
+st.divider()
+st.subheader("🛠️ Menú de Acción (Presupuesto Real)")
+
+# Diccionario de alimentos accesibles y rendidores
+alimentos_baratos = {
+    "Huevos (La base de todo)": "Baratos y proteína pura. 3 huevos equivalen a una porción de carne.",
+    "Legumbres (Lentejas/Porotos)": "Súper baratas. Si las mezclás con arroz, tenés proteína completa.",
+    "Hígado o Menudencias": "Es la carne más barata y la que más vitaminas tiene para el gym.",
+    "Arroz y Fideos": "El combustible más económico. Usalos para llegar a tus carbohidratos.",
+    "Avena pesada": "Comprada suelta es barata y te mantiene lleno toda la mañana en la facu."
+}
+
+with st.expander("💡 Cómo cumplir tus macros con poco presupuesto"):
+    for alimento, beneficio in alimentos_baratos.items():
+        st.write(f"✅ **{alimento}:** {beneficio}")
+
+st.subheader("🍲 Sugerencia de Plato según tus objetivos")
+
+# Lógica de sugerencia basada en el presupuesto y los macros calculados
+if objetivo == "Volumen":
+    st.info(f"👉 **Tu plato ideal hoy:** Un buen plato de Arroz con Lentejas y 2 huevos hervidos. Es barato, te da los carbohidratos para crecer y la proteína necesaria.")
+elif objetivo == "Definición":
+    st.info(f"👉 **Tu plato ideal hoy:** Salteado de hígado o pollo con mucha verdura de estación (lo que esté barato en la feria) y poca cantidad de arroz.")
+else:
+    st.info(f"👉 **Tu plato ideal hoy:** Guiso de fideos con menudencias o trozos de carne económica. Un equilibrio justo.")
+
+st.warning("⚠️ **Tip de Ahorro:** Comprá siempre en la feria o mayoristas. Evitá los procesados (galletitas, saquitos) que son caros y no alimentan.")
 
 # --- SECCIÓN DE AUTOR (LA FIRMA DE TOJI) ---
 st.divider()
