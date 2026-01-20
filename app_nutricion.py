@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-# 1. ESTÉTICA "TOJI MODE"
+# 1. ESTÉTICA "TOJI ZENIN" (MODO GUERREO)
 st.set_page_config(page_title="Toji Performance System", page_icon="🥷", layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown("""
@@ -23,7 +23,8 @@ frases = [
     "«No soy un prodigio, soy un error del sistema que entrena más que vos.»",
     "«El dolor es solo información. Ignorala y seguí.»",
     "«Tu genética es el mapa, pero tu disciplina es el camino.»",
-    "«MEMENTO MORI: ¿Vas a morir siendo un promedio o una leyenda?»"
+    "«MEMENTO MORI: ¿Vas a morir siendo un promedio o una leyenda?»",
+    "«Entrená como si fueras el hombre más buscado del mundo.»"
 ]
 
 st.markdown("<h1 style='text-align: center;'>🥷 TOJI PERFORMANCE SYSTEM</h1>", unsafe_allow_html=True)
@@ -43,7 +44,7 @@ with col_m:
 
 st.write("---")
 
-# 2. SECCIÓN BIOMÉTRICA
+# 2. BIOMETRÍA
 with st.container():
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -57,30 +58,33 @@ with st.container():
         objetivo = st.selectbox("ESTRATEGIA", ["Volumen", "Definición", "Mantenimiento"])
         actividad = st.selectbox("ACTIVIDAD", ["Sedentario", "Ligero", "Moderado", "Atleta"])
 
-# 3. MASA CORPORAL
+# 3. PESO TÁCTICO RECALIBRADO
 st.subheader("⚖️ MASA CORPORAL")
 metodo_p = st.radio("¿TENÉS BALANZA?", ["SÍ", "NO, ESTIMAR"], horizontal=True)
 if metodo_p == "NO, ESTIMAR":
     ref = st.select_slider("ESTADO VISUAL:", options=["Delgado", "Atlético", "Promedio", "Fuerte/Pesado"])
     dict_imc = {"Delgado": 18.8, "Atlético": 21.2, "Promedio": 23.8, "Fuerte/Pesado": 27.5}
-    peso = (dict_imc[ref] * ((altura/100)**2)) + st.slider("AJUSTE FINO (kg)", -10.0, 10.0, 0.0)
+    peso_base = dict_imc[ref] * ((altura/100)**2)
+    peso = peso_base + st.slider("AJUSTE DE PRECISIÓN (kg)", -10.0, 10.0, 0.0)
     st.success(f"PESO CALCULADO: **{round(peso, 1)} KG**")
 else:
     peso = st.number_input("PESO REAL (kg)", 30.0, 200.0, 68.7)
 
-# CÁLCULOS
+# CÁLCULOS NUTRICIONALES
 tmb = (10 * peso) + (6.25 * altura) - (5 * edad) + (5 if genero == "Hombre" else -161)
-factores = {"Sedentario": 1.2, "Ligero": 1.375, "Moderado": 1.55, "Atleta": 1.725}
-calorias = (tmb * factores[actividad]) + (450 if objetivo == "Volumen" else -450 if objetivo == "Definición" else 0)
+fact_act = {"Sedentario": 1.2, "Ligero": 1.375, "Moderado": 1.55, "Atleta": 1.725}
+calorias = tmb * fact_act[actividad]
+if objetivo == "Volumen": calorias += 450
+elif objetivo == "Definición": calorias -= 450
 
 # 4. PESTAÑAS
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["🚀 RENDIMIENTO", "🧬 ADN", "🍲 SUMINISTROS", "🧠 MENTE", "🏳️ ÚLTIMA INSTANCIA"])
 
 with tab1:
-    col_m1, col_m2, col_m3 = st.columns(3)
-    col_m1.metric("CALORÍAS", f"{int(calorias)} kcal")
-    col_m2.metric("AGUA / L", f"{round((peso*35)/1000, 1)} L")
-    col_m3.metric("PROTEÍNA", f"{int(peso*2.2)}g")
+    m1, m2, m3 = st.columns(3)
+    m1.metric("CALORÍAS", f"{int(calorias)} kcal")
+    m2.metric("AGUA / L", f"{round((peso*35)/1000, 1)} L")
+    m3.metric("PROTEÍNA", f"{int(peso*2.2)}g")
     p, g = peso * 2.2, peso * 0.9
     c = (calorias - (p*4) - (g*9)) / 4
     st.write(f"🥩 Proteína: {int(p)}g | 🍞 Carbos: {int(c)}g | 🥑 Grasas: {int(g)}g")
@@ -88,43 +92,41 @@ with tab1:
 with tab2:
     st.subheader("🧬 LÍMITES BIOLÓGICOS")
     pot_m = (altura - 100) + (muneca * 0.5)
-    st.info(f"📍 Límite de masa muscular magra: **{round(pot_m, 1)} kg**")
+    st.info(f"📍 Masa muscular magra límite: **{round(pot_m, 1)} kg**")
     score = (muneca + tobillo) / 2
+    
+    # AJUSTE DE FUERZA (NIVEL GUERRERO AVANZADO)
+    bench_p = (peso * 1.5) * (score / 17.5)  # Aumentado de 1.2 a 1.5
+    dead_p = (peso * 2.5) * (score / 17.5)   # Aumentado de 2.0 a 2.5
+    
     f1, f2 = st.columns(2)
-    f1.metric("POTENCIAL PRESS BANCA", f"{int((peso * 1.2) * (score / 17.5))} kg")
-    f2.metric("POTENCIAL PESO MUERTO", f"{int((peso * 2.0) * (score / 17.5))} kg")
+    f1.metric("POTENCIAL PRESS BANCA", f"{int(bench_p)} kg")
+    f2.metric("POTENCIAL PESO MUERTO", f"{int(dead_p)} kg")
+    st.write("⚠️ *Valores ajustados para potencial de fuerza máxima según estructura ósea densa.*")
 
 with tab3:
     st.subheader("🍲 SUMINISTROS DE COMBATE")
-    with st.expander("💸 BAJOS RECURSOS (SUPERVIVENCIA)"):
-        st.write("• HUEVOS (30 unidades) • HÍGADO DE VACA (Nutrientes base) • AVENA Y ARROZ (Energía) • LENTEJAS (Proteína vegetal)")
+    with st.expander("💸 NIVEL 1: BAJOS RECURSOS (SUPERVIVENCIA)"):
+        st.write("• **HUEVOS:** Fuente de proteína perfecta. • **HÍGADO DE VACA:** Multivitamínico natural. • **AVENA/ARROZ/PAPA:** Energía base. • **LENTEJAS:** Fibra y proteína económica.")
+    with st.expander("⚖️ NIVEL 2: EQUILIBRADO"):
+        st.write("• Pollo, carne picada magra, yogur natural y frutas de estación.")
+    with st.expander("🔱 NIVEL 3: ÓPTIMO"):
+        st.write("• Pescados azules, Palta, Frutos secos y Aceite de Oliva.")
 
 with tab4:
     st.subheader("✍️ EL MURO DEL SILENCIO")
     desahogo = st.text_area("Vaciá tu mente aquí...", height=150)
     if st.button("QUEMAR MENSAJE"):
+        st.balloons()
         st.success("MENSAJE DESTRUIDO.")
 
 with tab5:
     st.subheader("⚠️ PROTOCOLO DE ÚLTIMA INSTANCIA")
-    st.error("¿ESTÁS PENSANDO EN RENDIRTE?")
-    st.write(f"""
-    {nombre}, escuchame bien:
-    Rendirse es la opción más fácil, es lo que hace el 99% de la gente. 
-    Si te rendís hoy, el dolor no se va, solo se transforma en arrepentimiento. 
-    El mundo no se va a detener porque vos estés cansado. 
-    
-    ¿Mañana vas a estar feliz de haber abandonado hoy? La respuesta es NO.
-    """)
-    
-    col_a, col_b = st.columns(2)
-    with col_a:
+    st.error(f"¿PENSANDO EN RENDIRTE, {nombre.upper()}?")
+    col_x, col_y = st.columns(2)
+    with col_x:
         if st.button("ME QUIERO RENDIR"):
-            st.write("---")
-            st.write("❌ **OPCIÓN DENEGADA.**")
-            st.write("Tu sistema no acepta la rendición como una variable válida. Tomate 10 minutos, lavate la cara con agua fría y volvé a la pestaña de 'RENDIMIENTO'.")
-    
-    with col_b:
+            st.warning("❌ OPCIÓN DENEGADA. Descansá, no abandones.")
+    with col_y:
         if st.button("REINICIAR ESPÍRITU"):
-            st.success("⚡ PROTOCOLO DE REINICIO ACTIVADO.")
-            st.write("Recuperá tu foco. No sos tus emociones, sos tus acciones. Levantá la cabeza.")
+            st.success("⚡ ESPÍRITU RECALIBRADO.")
