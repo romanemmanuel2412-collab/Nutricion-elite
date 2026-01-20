@@ -1,349 +1,75 @@
 import streamlit as st
-import getpass
+import time
 
-# Configuración Pro
-st.set_page_config(page_title="Toji Performance", page_icon="🦾", layout="wide")
+# 1. CONFIGURACIÓN Y ESTÉTICA
+st.set_page_config(page_title="Toji System", page_icon="🥷", layout="wide", initial_sidebar_state="collapsed")
 
-# CSS "Tech-Wear" (Elegante, oscuro y serio)
 st.markdown("""
     <style>
-    .stApp {
-        background-color: #0a0a0a;
-        color: #e0e0e0;
-        font-family: 'Inter', sans-serif;
-    }
-    
-    /* Títulos con estilo de interfaz táctica */
-    h1, h2, h3 {
-        color: #ffffff !important;
-        letter-spacing: -1px;
-        font-weight: 800;
-        text-transform: uppercase;
-    }
-
-    /* Línea roja sutil que divide secciones */
-    .stDivider {
-        border-bottom: 2px solid #330000;
-    }
-
-    /* Botones y tarjetas */
-    .stButton>button {
-        background-color: #1a1a1a;
-        border: 1px solid #444;
-        color: white;
-        transition: 0.3s;
-    }
-    .stButton>button:hover {
-        border-color: #ff0000;
-        color: #ff0000;
-    }
+        [data-testid="stSidebar"], [data-testid="collapsedControl"] {display: none !important;}
+        .stApp { background-color: #0e1117; }
+        [data-testid="stMetricValue"] { font-size: 28px !important; color: #00ffcc !important; }
+        [data-testid="stMetricLabel"] { font-size: 16px !important; color: #808495 !important; }
+        div.stButton > button { width: 100%; border-radius: 10px; background-color: #1f2937; color: white; border: 1px solid #374151; }
+        div.stButton > button:hover { border-color: #00ffcc; color: #00ffcc; }
     </style>
     """, unsafe_allow_html=True)
 
-# Banner: Una imagen de Toji pero de perfil, sombría, casi como una foto de modelo de fitness
-# Esta imagen es profesional y no se ve "infantil"
-st.image("https://images6.alphacoders.com/132/1329622.png", caption="PHYSICAL DOMINANCE SYSTEM // VER 2.0")
+st.markdown("<h1 style='text-align: center; color: white;'>🛡️ TOJI PERFORMANCE</h1>", unsafe_allow_html=True)
+st.write("---")
 
-with st.sidebar:
-    st.title("🛡️ PERFIL")
-    st.markdown("---")
-    # Imagen de Toji de espaldas o entrenando (estética 'Dark Gym')
-    st.image("https://i.pinimg.com/736x/8d/68/76/8d687679366f06a9ca9d9b6e4e08287d.jpg")
-    st.write("**OPERATIVO:** Jonathan")
-    st.markdown("---")
-    st.info("Tu cuerpo es tu única arma. No necesitás energía maldita, necesitás disciplina.")
+# 2. ENTRADA DE DATOS
+c1, c2, c3 = st.columns(3)
+with c1:
+    peso = st.number_input("Peso (kg)", 40.0, 150.0, 81.0)
+    altura = st.number_input("Altura (cm)", 120, 220, 181)
+with c2:
+    edad = st.number_input("Edad", 12, 90, 20)
+    muneca = st.number_input("Muñeca (cm)", 10.0, 25.0, 17.0)
+with c3:
+    objetivo = st.selectbox("Objetivo", ["Volumen", "Definición", "Mantenimiento"])
+    genero = st.radio("Género", ["Hombre", "Mujer"], horizontal=True)
 
-# 4. Título Principal
-st.title("🛡️ TOJI PERFORMANCE SYSTEM")
-st.write("*" + "El destino es lo que construyes con el código y el sudor." + "*")
+actividad = st.select_slider("Actividad", options=["Sedentario", "Ligero", "Moderado", "Atleta"])
 
-# Pestañas actualizadas
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Calculadora", "🍱 Macros", "🧬 ADN & Genética", "🧠 Mentalidad", "🧘 Salud Mental"])
+# MOTOR DE CÁLCULO
+factores = {"Sedentario": 1.2, "Ligero": 1.375, "Moderado": 1.55, "Atleta": 1.725}
+tmb = (66 + (13.7 * peso) + (5 * altura) - (6.8 * edad)) if genero == "Hombre" else (655 + (9.6 * peso) + (1.8 * altura) - (4.7 * edad))
+calorias = (tmb * factores[actividad]) + (400 if objetivo == "Volumen" else -400 if objetivo == "Definición" else 0)
+
+# 3. PESTAÑAS
+tab1, tab2, tab3 = st.tabs(["🚀 RENDIMIENTO", "🧬 GENÉTICA", "🧠 MENTALIDAD"])
 
 with tab1:
-    # (Aquí va la lógica que ya tenías de peso, altura y calorías...)
-    col1, col2 = st.columns(2)
-    with col1:
-        peso = st.number_input("Peso Actual (kg)", 40.0, 200.0, 81.0)
-        altura = st.number_input("Altura (cm)", 120, 230, 181)
-        genero = st.radio("Género", ["Hombre", "Mujer"], horizontal=True)
-    with col2:
-        edad = st.number_input("Edad", 10, 100, 20)
-        # ESTA ES LA LÍNEA QUE TE FALTA:
-        muneca = st.number_input("Medida de muneca (cm)", 10.0, 30.0, 17.0)
-        objetivo = st.selectbox("Tu Objetivo", ["Definición", "Mantenimiento", "Volumen"])
+    col1, col2, col3 = st.columns(3)
+    col1.metric("CALORÍAS", f"{int(calorias)} kcal")
+    col2.metric("AGUA", f"{round((peso*35)/1000, 1)} L")
+    col3.metric("PROTEÍNA", f"{int(peso*2.2)}g")
+    
+    st.write("### 📊 DISTRIBUCIÓN")
+    p, g = peso * 2.2, peso * 0.9
+    c = (calorias - (p*4) - (g*9)) / 4
+    st.progress(0.4); st.write(f"🥩 Proteínas: {int(p)}g")
+    st.progress(0.7); st.write(f"🍞 Carbos: {int(c)}g")
 
 with tab2:
-    st.subheader("🍱 Distribución de Energía (Macros)")
-    
-    # REPETIMOS EL CÁLCULO AQUÍ PARA QUE LA PESTAÑA TENGA LOS DATOS
-    # (Asegurate de que estas variables usen los datos que ingresaste en la Tab 1)
-    
-    proteina = peso * 2.2 
-    grasas = peso * 0.9
-    
-    # Calculamos carbohidratos restando al total de calorías
-    # Usamos la variable 'calorias_finales' que calculamos en la Tab 1
-    carbo_cal = 2500 - (proteina * 4) - (grasas * 9)
-    carbohidratos = carbo_cal / 4
-
-    # CREAMOS LAS COLUMNAS VISUALES
-    c1, c2, c3 = st.columns(3)
-    c1.metric("🥩 Proteínas", f"{int(proteina)}g")
-    c2.metric("🍞 Carbos", f"{int(carbohidratos)}g")
-    c3.metric("🥑 Grasas", f"{int(grasas)}g")
-    
-    st.divider()
-    st.info("💡 **Dato de Elite:** Esta distribución está optimizada para maximizar tu rendimiento deportivo sin perder masa muscular.")
+    st.subheader("🧬 Diagnóstico de Estructura")
+    biotipo = "Endo-Mesomorfo" if muneca >= 19 else "Mesomorfo" if muneca > 16.5 else "Ectomorfo"
+    st.info(f"Tu biotipo es: **{biotipo}**")
+    st.write("---")
+    st.write("🍲 **Opciones Económicas:** Huevos, Lentejas, Hígado, Arroz.")
 
 with tab3:
-    st.header("Análisis de Potencial Genético")
-    st.write("Calculamos tu biotipo y límite natural basado en tu estructura ósea.")
-    
-    c1, c2 = st.columns(2)
-    with c1:
-        muneca = st.number_input("Medida de muneca (cm)", 10.0, 25.0, 17.0)
-    with c2:
-        tobillo = st.number_input("Medida de tobillo (cm)", 15.0, 35.0, 22.0)
-
-    # Cálculo del Índice de Estructura Ósea (Estatura / Muneca)
-    r_medida = altura / muneca
-    
-    st.subheader("Tu Diagnóstico Genético:")
-    
-    if r_medida > 10.4:
-        biotipo = "Ectomorfo (Estructura Fina)"
-    elif 9.6 <= r_medida <= 10.4:
-        biotipo = "Mesomorfo (Estructura Atlética)"
-    else:
-        biotipo = "Endomorfo / Estructura Pesada (Potencial de Fuerza)"
-    
-    if biotipo == "Ectomorfo (Estructura Fina)":
-        st.success(f"Biotipo: **{biotipo}**")
-        st.write("🚀 **Ventaja Genética:** Gran capacidad de definición y velocidad. Ideal para saltos explosivos en la arena.")
-    elif biotipo == "Mesomorfo (Estructura Atlética)":
-        st.success(f"Biotipo: **{biotipo}**")
-        st.write("🚀 **Ventaja Genética:** Facilidad para ganar músculo y perder grasa. Genética de guerrero balanceado.")
-    else:
-        st.success(f"Biotipo: **{biotipo}**")
-        st.write("🚀 **Ventaja Genética:** Fuerza bruta masiva y potencia de empuje. Capacidad de carga superior.")
-
-    st.subheader("🧬 Análisis de Biotipo Genético")
-
-    # Usamos la variable 'muneca' que ya definimos antes
-    if muneca >= 19:
-        tecnico = "Endomorfo / Mesomorfo Pesado"
-        rango = "TITÁN (Unidad de Asedio)"
-        color = "orange"
-        desc = "Estructura ósea masiva. Tu potencial de fuerza bruta es el más alto. Estás diseñado para cargar grandes pesos y dominar por tamaño."
-    elif muneca < 19 and muneca > 16.5:
-        tecnico = "Mesomorfo Puro"
-        rango = "GUERRERO (Versatilidad Táctica)"
-        color = "green"
-        desc = "Genética de atleta de élite. Capacidad natural para ganar músculo y perder grasa simultáneamente. Estética y potencia equilibradas."
-    else:
-        tecnico = "Ectomorfo / Ecto-Mesomorfo"
-        rango = "CAZADOR (Fibra y Velocidad)"
-        color = "blue"
-        desc = "Estructura ligera y eficiente. Tu ventaja es la definición y la agilidad. Cada gramo de músculo se marca con precisión quirúrgica."
-
-    # Presentación visual con impacto
-    col_a, col_b = st.columns(2)
-
-    with col_a:
-        st.markdown(f"**Clasificación Técnica:**")
-        st.code(tecnico) # Estilo código para que parezca un reporte médico
-
-    with col_b:
-        st.markdown(f"**Rango de Combate:**")
-        st.subheader(f":{color}[{rango}]")
-
-    st.info(f"💡 **Análisis de Potencial:** {desc}")
-
-    st.divider()
-    st.write("*" + "La estructura ósea no miente. Los músculos se construyen, pero el chasis es el que define tu techo." + "*")
-
-    # Cálculo de Potencial de Masa Muscular Máxima (Fórmula de Casey Butt)
-    potencial = (altura * 0.15) + (muneca * 0.5) + (tobillo * 0.5) # Simplificación pro
-    st.metric("Tu límite de peso muscular estimado (Natural)", f"{round(potencial, 1)} kg")
-    st.info("💡 Este es el peso máximo que tu estructura ósea puede soportar con un nivel bajo de grasa de forma natural.")
-
-with tab4:
-    st.subheader("🦁 Filosofía Estoica para Guerreros")
-    st.write("*Sabiduría de los grandes filósofos para forjar tu mente de acero*")
+    st.subheader("🌬️ RESPIRACIÓN TÁCTICA")
+    if st.button("INICIAR TEMPORIZADOR"):
+        ph_txt = st.empty(); ph_bar = st.progress(0)
+        pasos = [("🟦 INHALA", "info"), ("⬜ MANTÉN", "warning"), ("🟩 EXHALA", "success"), ("🟨 VACÍO", "error")]
+        for ciclo in range(2):
+            for txt, tipo in pasos:
+                getattr(ph_txt, tipo)(txt)
+                for i in range(101):
+                    time.sleep(0.035); ph_bar.progress(i)
+        ph_txt.success("✅ CALMA RECUPERADA")
     
     st.divider()
-    
-    # Citas estoicas
-    citas = {
-        "Marco Aurelio": "«No pidas que las cosas salgan como quieres, sino que quieras que salgan como salen.»",
-        "Epicteto": "«No eres tú quien controla los eventos externos, sino solo tu juicio sobre ellos.»",
-        "Séneca": "«El gran guerrero es quien controla sus emociones, no sus enemigos.»",
-        "Zenón de Citio": "«La virtud es el único bien verdadero. Todo lo demás es indiferente.»",
-        "Cleantes": "«Lo que importa no es lo que te sucede, sino cómo respondes ante ello.»",
-        "Diógenes": "«La riqueza consiste no en tener bienes, sino en tener pocas necesidades.»"
-    }
-    
-    col_citas = st.columns(2)
-    contador = 0
-    
-    for filosofo, cita in citas.items():
-        with col_citas[contador % 2]:
-            st.write(f"**{filosofo}**")
-            st.write(f"_{cita}_")
-            st.divider()
-        contador += 1
-    
-    st.success("💪 **Recuerda:** El cuerpo es el templo, pero la mente es el guerrero.")
-
-with tab5:
-    st.subheader("🛠️ Caja de Herramientas Mental")
-    st.write("El músculo más importante es el que no se ve.")
-
-    # 1. Selector de Estado de Ánimo (Interactividad pura)
-    mood = st.select_slider(
-        "¿Cómo está tu nivel de energía mental hoy?",
-        options=["Agotado", "Ansioso", "Neutral", "Motivado", "Imparable"]
-    )
-
-    if mood == "Agotado":
-        st.error("🚨 **Orden de Toji:** Hoy el descanso es tu entrenamiento. Dormí 8 horas y desconectá del celular.")
-    elif mood == "Ansioso":
-        st.warning("⚖️ **Equilibrio:** Tu mente va más rápido que la realidad. Escribí 3 cosas que podés controlar hoy y olvidate del resto.")
-    elif mood == "Neutral":
-        st.info("🔄 **Modo Ejecución:** Ni frío ni calor. Es el mejor momento para programar o entrenar sin distracciones.")
-    elif mood == "Motivado":
-        st.success("🔥 **Aprovechá el Fuego:** Subí el peso en el gym o resolvé ese bug difícil en el código.")
-    elif mood == "Imparable":
-        st.snow() # Un efecto visual de festejo
-        st.write("🦾 **Dominio Total:** Sos el arquitecto de tu propio destino. No dejes que nadie te saque de este estado.")
-
-    st.divider()
-
-    # 2. Ejercicio de Respiración Táctica (Box Breathing)
-    st.subheader("🌬️ Respiración Táctica (4-4-4-4)")
-    st.write("Usada por fuerzas de élite para resetear el sistema nervioso en segundos.")
-    
-    if st.button("Iniciar Ciclo de Calma"):
-        with st.empty():
-            for i in range(1):
-                st.write("🟦 **Inhalá...** (1, 2, 3, 4)")
-                # Aquí podrías usar time.sleep(4) si querés que sea real
-                st.write("⬜ **Mantené...** (1, 2, 3, 4)")
-                st.write("🟩 **Exhalá...** (1, 2, 3, 4)")
-                st.write("🟨 **Mantené...** (1, 2, 3, 4)")
-        st.success("Sistema Nervioso Reseteado.")
-
-    # 3. El Diario del Villano (Input interactivo)
-    st.subheader("📓 Descarga de Pensamientos")
-    pensamiento = st.text_area("¿Qué te está pesando hoy? Sacalo de tu cabeza y ponelo acá (no se guarda en ningún lado, es solo para vos).")
-    if pensamiento:
-        st.write("✅ *Pensamiento procesado. Ahora volvé a la acción.*")
-
-# --- MODO BESTIA (HIGH INTENSITY) ---
-st.divider()
-st.subheader("💀 PROTOCOLO DE GUERRA")
-st.write("Solo para cuando estés a punto de rendirte.")
-
-if st.button("ACTIVAR MODO BESTIA"):
-    st.balloons() # Efecto visual
-    st.audio("https://www.soundjay.com/mechanical/sounds/clanking-chain-01.mp3") # Sonido de cadenas o metal (opcional)
-    
-    # Contenedor con estilo agresivo
-    st.markdown("""
-        <div style="background-color:#ff4b4b; padding:20px; border-radius:10px; border: 2px solid white;">
-            <h2 style="color:white; text-align:center;">🔥 ¡LEVANTATE Y EJECUTA!</h2>
-            <p style="color:white; font-size:18px; text-align:center;">
-                Tu mente te está mintiendo. Tus músculos tienen un 40% más de energía de lo que crees. 
-                El mundo no te debe nada. La comodidad es la tumba de los hombres mediocres.
-            </p>
-            <p style="color:white; font-weight:bold; text-align:center;">
-                SALÍ DE ESTA APP, SOLTÁ EL CELULAR Y HACÉ QUE TU YO DEL FUTURO ESTÉ ORGULLOSO.
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
-    st.warning("⚠️ Advertencia: Este estado mental consume mucha energía. Usalo para entrenar, no para pensar.")
-
-# Creamos una pestaña nueva de "Ciencia" o lo ponemos debajo de los resultados
-st.divider() # Una línea divisoria para separar
-st.subheader("🔬 Evidencias Científicas y Metodología")
-
-with st.expander("Ver fuentes bibliográficas y fórmulas utilizadas"):
-    st.write("""
-    Este sistema no utiliza estimaciones al azar. Los resultados se basan en los siguientes pilares de la nutrición deportiva y la antropometría:
-    """)
-    
-    # 1. Harris-Benedict
-    st.markdown("### 1. Tasa Metabólica Basal (TMB)")
-    st.write("""
-    Se utiliza la **Ecuación de Harris-Benedict revisada**. Es el estándar de oro para calcular las calorías en reposo.
-    * *Fuente:* Roza AM, Shizgal HM. (1984). "The Harris Benedict equation reevaluated".
-    """)
-
-    # 2. Índice de Grant
-    st.markdown("### 2. Biotipificación por Estructura Ósea")
-    st.write("""
-    Para determinar si eres Ectomorfo, Mesomorfo o Endomorfo, utilizamos el **Índice de Grant**, que relaciona la estatura con la circunferencia de la muñeca.
-    * *Fórmula:* $R = Altura (cm) / Muneca (cm)$
-    * *Fuente:* Grant JP. (1980). "Handbook of Total Parenteral Nutrition".
-    """)
-
-    # 3. Proteínas
-    st.markdown("### 3. Requerimientos de Proteína")
-    st.write("""
-    El objetivo de 2.2g de proteína por kg de peso está basado en las recomendaciones de la **ISSN** para atletas de fuerza y deportes de equipo (como el Handball) para maximizar la síntesis proteica.
-    * *Fuente:* Jäger et al. (2017). "International Society of Sports Nutrition Conference Stand: protein and exercise".
-    """)
-    
-    st.info("💡 **Nota del desarrollador:** Estas fórmulas son herramientas de orientación. Para un plan médico, siempre consulta a un profesional.")
-
-st.divider()
-st.subheader("🛠️ Menú de Acción (Presupuesto Real)")
-
-# Diccionario de alimentos accesibles y rendidores
-alimentos_baratos = {
-    "Huevos (La base de todo)": "Baratos y proteína pura. 3 huevos equivalen a una porción de carne.",
-    "Legumbres (Lentejas/Porotos)": "Súper baratas. Si las mezclás con arroz, tenés proteína completa.",
-    "Hígado o Menudencias": "Es la carne más barata y la que más vitaminas tiene para el gym.",
-    "Arroz y Fideos": "El combustible más económico. Usalos para llegar a tus carbohidratos.",
-    "Avena pesada": "Comprada suelta es barata y te mantiene lleno toda la mañana en la facu."
-}
-
-with st.expander("💡 Cómo cumplir tus macros con poco presupuesto"):
-    for alimento, beneficio in alimentos_baratos.items():
-        st.write(f"✅ **{alimento}:** {beneficio}")
-
-st.subheader("🍲 Sugerencia de Plato según tus objetivos")
-
-# Lógica de sugerencia basada en el presupuesto y los macros calculados
-if objetivo == "Volumen":
-    st.info(f"👉 **Tu plato ideal hoy:** Un buen plato de Arroz con Lentejas y 2 huevos hervidos. Es barato, te da los carbohidratos para crecer y la proteína necesaria.")
-elif objetivo == "Definición":
-    st.info(f"👉 **Tu plato ideal hoy:** Salteado de hígado o pollo con mucha verdura de estación (lo que esté barato en la feria) y poca cantidad de arroz.")
-else:
-    st.info(f"👉 **Tu plato ideal hoy:** Guiso de fideos con menudencias o trozos de carne económica. Un equilibrio justo.")
-
-st.warning("⚠️ **Tip de Ahorro:** Comprá siempre en la feria o mayoristas. Evitá los procesados (galletitas, saquitos) que son caros y no alimentan.")
-
-# --- SECCIÓN DE AUTOR (LA FIRMA DE TOJI) ---
-st.divider()
-col_autor, col_vacio = st.columns([2, 1])
-
-with col_autor:
-    st.subheader("👨‍💻 Sobre el Desarrollador")
-    st.write("""
-    **Jonathan | Atleta y Desarrollador**
-    
-    Este sistema nació de la necesidad de optimizar el rendimiento físico sin perder la claridad mental. 
-    Como jugador de Handball y apasionado por la tecnología, creo en la disciplina como la única 
-    herramienta para superar el entorno. 
-    
-    *«El destino no se espera, se programa.»*
-    """)
-    
-    # Botón con efecto para que te contacten o te sigan
-    if st.button("🚀 Contactar para Proyectos"):
-        st.balloons()
-        st.write("Mandame un mensaje si buscás optimizar tu rendimiento o necesitás software a medida.")
-
-
+    st.text_area("📓 DESCARGA TÁCTICA", placeholder="Escribí para soltar...")
